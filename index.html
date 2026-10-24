@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>18х дней Умка пропал — Мониторинг медиаполя первого шпица Беларуси</title>
+  <meta name="description" content="Интерактивный радар медиаполя: проверяем, появлялся ли шпиц Умка в новостях и сколько времени прошло с его исчезновения из кадра.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Фоновый декоративный градиент -->
+  <div class="bg-glow"></div>
+  <div class="bg-grid"></div>
+
+  <!-- Шапка сайта -->
+  <header class="site-header">
+    <div class="container header-container">
+      <div class="brand">
+        <span class="brand-avatar">🐶</span>
+        <div class="brand-text">
+          <span class="brand-title">УМКА-РАДАР</span>
+          <span class="brand-sub">Belarus Spitz Intelligence</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="radar-status-pill">
+          <span class="pulse-dot"></span>
+          <span class="pulse-text" id="liveRadarStatus">Радар активен</span>
+        </div>
+
+        <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Переключить тему (светлая/тёмная)">
+          <span class="theme-icon sun-icon">☀️</span>
+          <span class="theme-icon moon-icon">🌙</span>
+          <span class="theme-label" id="themeLabel">Тема</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+
+      <!-- Главный баннер / Герой страницы -->
+      <section class="hero-section">
+        <div class="badge-container">
+          <span class="hero-badge">Срочный медиа-трекер</span>
+          <span class="hero-badge verified">Синхронизация с Википедией & СМИ</span>
+        </div>
+
+        <!-- Ключевой заголовок по ТЗ пользователя -->
+        <h1 class="hero-title" id="mainHeroTitle">
+          <span class="highlight-glitch">18х дней</span> Умка пропал
+        </h1>
+
+        <p class="hero-subtitle">
+          Мониторинг публичных появлений белого померанского шпица Александра Лукашенко.
+          Анализируем новостные сводки, пресс-релизы и теории заговора в режиме реального времени.
+        </p>
+
+        <!-- Таймер-счетчик отсутствия / дней -->
+        <div class="counter-card">
+          <div class="counter-header">
+            <span class="counter-tag">ВРЕМЯ С ПОСЛЕДНЕЙ ВОЛНЫ СЛУХОВ ОБ «ИСЧЕЗНОВЕНИИ»</span>
+            <span class="counter-state" id="counterStatusLabel">Счетчик тикает</span>
+          </div>
+
+          <div class="timer-grid">
+            <div class="timer-unit">
+              <span class="timer-number" id="timerDays">184</span>
+              <span class="timer-label">ДНЕЙ</span>
+            </div>
+            <div class="timer-separator">:</div>
+            <div class="timer-unit">
+              <span class="timer-number" id="timerHours">14</span>
+              <span class="timer-label">ЧАСОВ</span>
+            </div>
+            <div class="timer-separator">:</div>
+            <div class="timer-unit">
+              <span class="timer-number" id="timerMinutes">28</span>
+              <span class="timer-label">МИНУТ</span>
+            </div>
+            <div class="timer-separator">:</div>
+            <div class="timer-unit">
+              <span class="timer-number" id="timerSeconds">42</span>
+              <span class="timer-label">СЕКУНД</span>
+            </div>
+          </div>
+
+          <div class="counter-footer">
+            <span class="last-seen-text">
+              📍 Точка отсчета: слухи об исчезновении после перерыва между официальными протокольными съёмками.
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Блок живого медиа-сканера -->
+      <section class="scanner-section" id="scannerSection">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">🔍 Сканер упоминаний в медиаполе</h2>
+            <p class="section-desc">Алгоритм опрашивает открытые источники, Wikipedia API и базы данных прессы</p>
+          </div>
+          <button class="btn btn-primary" id="btnScanMedia">
+            <span class="btn-icon">⚡</span>
+            <span class="btn-text">Проверить медиаполе сейчас</span>
+          </button>
+        </div>
+
+        <!-- Панель управления поисковым запросом -->
+        <div class="search-bar-wrapper">
+          <div class="search-input-box">
+            <span class="search-icon">🔎</span>
+            <input type="text" id="searchInput" placeholder="Поисковый запрос (например: Умка шпиц Лукашенко, собака Лукашенко)" value="Умка шпиц Лукашенко">
+          </div>
+          <div class="quick-tags">
+            <span class="tag-hint">Быстрый поиск:</span>
+            <button class="btn-tag" data-query="Умка шпиц Лукашенко">Шпиц Умка</button>
+            <button class="btn-tag" data-query="Лукашенко собака пропала">Слухи о пропаже</button>
+            <button class="btn-tag" data-query="Умка выборы 2025">Выборы 2025</button>
+            <button class="btn-tag" data-query="шпиц на столе Лукашенко">Инцидент со столом</button>
+          </div>
+        </div>
+
+        <!-- Карточка статуса вердикта -->
+        <div class="verdict-banner" id="verdictBanner">
+          <div class="verdict-icon-box" id="verdictIcon">🛰️</div>
+          <div class="verdict-content">
+            <div class="verdict-top">
+              <span class="verdict-badge" id="verdictBadge">ОЖИДАНИЕ ПРОВЕРКИ</span>
+              <span class="verdict-time" id="verdictTime">Нажмите «Проверить медиаполе»</span>
+            </div>
+            <h3 class="verdict-title" id="verdictTitle">Где сейчас Умка? Замечен ли пёс?</h3>
+            <p class="verdict-description" id="verdictDesc">
+              Нажмите кнопку сканирования, чтобы запустить алгоритм анализа открытых источников и узнать последние данные.
+            </p>
+          </div>
+        </div>
+
+        <!-- Индикатор прогресса проверки -->
+        <div class="scan-progress-bar" id="scanProgress" style="display: none;">
+          <div class="progress-fill" id="progressFill"></div>
+          <span class="progress-status" id="progressStatus">Подключение к новостным серверам...</span>
+        </div>
+
+        <!-- Список найденных упоминаний -->
+        <div class="results-container">
+          <div class="results-header">
+            <h3 class="results-title">Сводка упоминаний и фактологический разбор</h3>
+            <span class="results-count" id="resultsCount">Загрузка сводок...</span>
+          </div>
+
+          <div class="cards-grid" id="mentionsGrid">
+            <!-- Динамически заполняется JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Информационный блок: Хронология и факты об Умке -->
+      <section class="dossier-section">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">🐾 Досье: «Первый шпиц страны»</h2>
+            <p class="section-desc">Хроника самых обсуждаемых появлений белого шпица на публике</p>
+          </div>
+        </div>
+
+        <div class="dossier-grid">
+          <div class="dossier-card">
+            <div class="dossier-icon">🌱</div>
+            <h3>25 апреля 2020</h3>
+            <h4>Первое появление</h4>
+            <p>Умка впервые показан во время республиканского субботника в Петриковском районе Гомельской области. Его кличка держалась в тайне полтора месяца.</p>
+          </div>
+
+          <div class="dossier-card">
+            <div class="dossier-icon">🍽️</div>
+            <h3>Январь 2021</h3>
+            <h4>Шпиц на обеденном столе</h4>
+            <p>Во время интервью телеведущей Наиле Аскер-заде собака сидела прямо на сервированном обеденном столе среди блюд, что вызвало волну мемов.</p>
+          </div>
+
+          <div class="dossier-card">
+            <div class="dossier-icon">🪖</div>
+            <h3>Сентябрь 2021</h3>
+            <h4>Учения «Запад-2021» и слухи о пропаже</h4>
+            <p>После учений в сети распространился фейк о том, что шпица якобы «загрызла сторожевая овчарка». Пресс-служба вскоре опровергла исчезновение.</p>
+          </div>
+
+          <div class="dossier-card">
+            <div class="dossier-icon">🎭</div>
+            <h3>Декабрь 2022</h3>
+            <h4>Царская ложа Большого театра</h4>
+            <p>Шпица заметили в Царской ложе Большого театра в Москве, а также в детской коляске во время визита в Самарканд и на саммите в Таджикистане.</p>
+          </div>
+
+          <div class="dossier-card">
+            <div class="dossier-icon">🌍</div>
+            <h3>Январь 2023</h3>
+            <h4>Турне: ОАЭ и Зимбабве</h4>
+            <p>Умка летал президентским бортом в Африку и Эмираты, где снова попал на кадры переговоров с бизнесменами и дипломатами.</p>
+          </div>
+
+          <div class="dossier-card">
+            <div class="dossier-icon">🗳️</div>
+            <h3>26 января 2025</h3>
+            <h4>Инцидент на избирательном участке</h4>
+            <p>Во время президентских выборов пёс сопровождал Лукашенко на избирательный участок, где отметился инцидентом у фасада здания.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Экспертная сводка / Цитаты -->
+      <section class="quotes-section">
+        <div class="quote-card">
+          <div class="quote-symbol">“</div>
+          <p class="quote-text">
+            «У шпица Александра Лукашенко в Беларуси больше прав, чем у белорусского народа».
+          </p>
+          <div class="quote-author">— Владимир Зеленский, речь в Вильнюсе</div>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-symbol">“</div>
+          <p class="quote-text">
+            «Шпиц Умка никуда не пропал. Он периодически исчезает с телеэкранов лишь потому, что официальный график визитов не всегда предполагает присутствие питомца».
+          </p>
+          <div class="quote-author">— Аналитический комментарий медиаполя</div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Подвал сайта -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <span class="footer-logo">🐶 УМКА-РАДАР</span>
+        <p class="footer-copy">
+          Информационно-аналитический проект отслеживания медийного присутствия шпица Умки.
+        </p>
+      </div>
+      <div class="footer-right">
+        <div class="footer-links">
+          <a href="#mainHeroTitle">Наверх</a>
+          <a href="#scannerSection">Сканер</a>
+          <a href="https://ru.wikipedia.org/wiki/Умка_(собака)" target="_blank" rel="noopener">Страница в Википедии ↗</a>
+        </div>
+        <span class="footer-built">Создано для VS Code • HTML5 / CSS3 / Vanilla JS</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Скрипт приложения -->
+  <script src="app.js"></script>
+</body>
+</html>
